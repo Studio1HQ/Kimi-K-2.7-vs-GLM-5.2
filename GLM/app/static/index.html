@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tasks</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- Auth screen -->
+  <section id="auth-screen" class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <span class="auth-brand-mark">&#10003;</span>
+        <span class="auth-brand-name">Tasks</span>
+      </div>
+
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab is-active" data-tab="login">Log in</button>
+        <button type="button" class="auth-tab" data-tab="register">Sign up</button>
+      </div>
+
+      <div id="auth-error" class="auth-error" hidden></div>
+
+      <form id="login-form" class="auth-form">
+        <label class="field">
+          <span class="field-label">Email</span>
+          <input type="email" name="email" required autocomplete="email" placeholder="you@example.com" />
+        </label>
+        <label class="field">
+          <span class="field-label">Password</span>
+          <input type="password" name="password" required autocomplete="current-password" placeholder="••••••••" />
+        </label>
+        <button type="submit" class="btn btn-primary btn-block">
+          <span class="btn-label">Log in</span>
+        </button>
+      </form>
+
+      <form id="register-form" class="auth-form" hidden>
+        <label class="field">
+          <span class="field-label">Email</span>
+          <input type="email" name="email" required autocomplete="email" placeholder="you@example.com" />
+        </label>
+        <label class="field">
+          <span class="field-label">Username</span>
+          <input type="text" name="username" required minlength="3" maxlength="100" autocomplete="username" placeholder="jane_doe" />
+        </label>
+        <label class="field">
+          <span class="field-label">Password</span>
+          <input type="password" name="password" required minlength="8" maxlength="128" autocomplete="new-password" placeholder="At least 8 characters" />
+        </label>
+        <button type="submit" class="btn btn-primary btn-block">
+          <span class="btn-label">Create account</span>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- App screen -->
+  <section id="app-screen" class="app-screen" hidden>
+    <header class="topbar">
+      <div class="topbar-brand">
+        <span class="auth-brand-mark">&#10003;</span>
+        <span class="auth-brand-name">Tasks</span>
+      </div>
+      <div class="topbar-actions">
+        <span id="user-email" class="user-pill"></span>
+        <button id="logout-btn" type="button" class="btn btn-ghost">Log out</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="content-header">
+        <div class="filter-tabs" id="filter-tabs">
+          <button type="button" class="filter-tab is-active" data-status="all">All</button>
+          <button type="button" class="filter-tab" data-status="pending">Pending</button>
+          <button type="button" class="filter-tab" data-status="in_progress">In progress</button>
+          <button type="button" class="filter-tab" data-status="completed">Completed</button>
+        </div>
+        <button id="new-task-btn" type="button" class="btn btn-primary">
+          <span class="plus">+</span> New task
+        </button>
+      </div>
+
+      <div id="api-error" class="banner banner-error" hidden></div>
+
+      <div id="task-list" class="task-list"></div>
+
+      <div id="empty-state" class="empty-state" hidden>
+        <p class="empty-title">No tasks here yet</p>
+        <p class="empty-sub">Create your first task to get started.</p>
+      </div>
+
+      <div id="loading-state" class="loading-state" hidden>Loading tasks…</div>
+    </main>
+  </section>
+
+  <!-- Task modal (create / edit) -->
+  <div id="task-modal" class="modal-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-header">
+        <h2 id="modal-title">New task</h2>
+        <button type="button" id="modal-close" class="icon-btn" aria-label="Close">&times;</button>
+      </div>
+      <form id="task-form">
+        <input type="hidden" name="id" />
+        <label class="field">
+          <span class="field-label">Title</span>
+          <input type="text" name="title" required minlength="1" maxlength="200" placeholder="What needs to be done?" />
+        </label>
+        <label class="field">
+          <span class="field-label">Description</span>
+          <textarea name="description" maxlength="2000" rows="3" placeholder="Optional details…"></textarea>
+        </label>
+        <label class="field">
+          <span class="field-label">Status</span>
+          <select name="status">
+            <option value="pending">Pending</option>
+            <option value="in_progress">In progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </label>
+        <div id="modal-error" class="banner banner-error" hidden></div>
+        <div class="modal-actions">
+          <button type="button" id="modal-cancel" class="btn btn-ghost">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="modal-submit">Save task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Confirm delete dialog -->
+  <div id="confirm-modal" class="modal-overlay" hidden>
+    <div class="modal modal-sm" role="dialog" aria-modal="true">
+      <h2>Delete task?</h2>
+      <p class="confirm-text">This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button type="button" id="confirm-cancel" class="btn btn-ghost">Cancel</button>
+        <button type="button" id="confirm-delete" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
